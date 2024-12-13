@@ -31,7 +31,7 @@ app.post("/validate-login", (req, res) => {
         const users = data.split("\n").map(line => line.trim());
         console.log("Users in file:", users);
 
-        const userEntry = users.find(entry => entry.startsWith(username) + ":");
+        const userEntry = users.find(entry => entry.startsWith(`${username}:`));
         console.log("Looking for username:", username);
 
         if (!userEntry) {
