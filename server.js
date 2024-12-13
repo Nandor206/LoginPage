@@ -44,7 +44,7 @@ app.post("/validate-login", (req, res) => {
         }
 
         // If credentials are correct, send a success message
-        res.json({ message: "Login successful!" });
+        res.redirect("/home") 
     });
 });
 
