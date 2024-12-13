@@ -1,9 +1,11 @@
-@import "bourbon";
+@use "bourbon" as *;
 
+// Colors
 $greenSeaweed: rgba(2, 128, 144, 1);
 $blueQueen: rgba(69, 105, 144, 1);
 $redFire: rgba(244, 91, 105, 1);
 
+// Fonts
 $fontAsap: 'Asap', sans-serif;
 
 body {
@@ -40,14 +42,14 @@ body {
     left: 40%;
     bottom: -130%;
     background-color: rgba($blueQueen, 0.15);
-    @include animation(waves 6s infinite linear);
+    @include animation(wawes 6s infinite linear);
   }
   
   &::after {
     left: 35%;
     bottom: -125%;
     background-color: rgba($greenSeaweed, 0.2);
-    @include animation(waves 7s infinite linear);
+    @include animation(wawes 7s infinite);
   }
   
   > input {
@@ -59,7 +61,7 @@ body {
     width: 100%;
     border: 0;
     padding: 10px 10px;
-    margin: 15px 0;
+    margin: 15px -10px;
   }
   
   > button {
@@ -72,7 +74,7 @@ body {
     border: 0;
     padding: 10px 0;
     margin-top: 10px;
-    margin-left: 0;
+    margin-left: -5px;
     border-radius: 5px;
     background-color: $redFire;
     @include transition(background-color 300ms);
@@ -83,7 +85,20 @@ body {
   }
 }
 
-@include keyframes(waves) {
-  from { @include transform(rotate(0deg)); }
-  to { @include transform(rotate(360deg)); }
+@keyframes wawes {
+  from {
+    @include transform(rotate(0));
+  }
+  to {
+    @include transform(rotate(360deg));
+  }
+}
+
+a {
+  text-decoration: none;
+  color: rgba(white, 0.6);
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  font-size: 12px;
 }
