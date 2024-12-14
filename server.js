@@ -24,7 +24,7 @@ function isAuthenticated(req, res, next) {
   if (req.session.loggedIn) {
     return next(); // User is logged in, continue to the next middleware/route
   } else {
-    return res.sendFile(path.join(__dirname, "index.html")); // Redirect to login page if not logged in
+    return res.redirect('/'); // Redirect to login page if not logged in
   }
 }
 
@@ -33,12 +33,15 @@ app.use(express.static(path.join(__dirname))); // Adjust the path if necessary
 
 // Serve login page (index.html) when visiting /
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html")); // Serve the login page
+  res.sendFile(path.join(__dirname, "login.html")); // Serve the login page
 });
 
 // Serve home page directly for /home, but require authentication first
-app.get("/home", isAuthenticated, (req, res) => {
-  res.sendFile(path.join(__dirname, "home.html")); // Serve home.html only if logged in
+app.get('/home', isAuthenticated, (req, res) => {
+    // Render home page with username from session
+    res.send(`
+        <h1>Welcome, ${req.session.username}!</h1>
+    `);
 });
 
 // Endpoint to validate login
@@ -67,6 +70,7 @@ app.post("/validate-login", (req, res) => {
 
     // If credentials are correct, set session variable and redirect to home
     req.session.loggedIn = true; // Set loggedIn session to true
+    req.session.username = username; // Store the username in session
     res.redirect("/home");
   });
 });
