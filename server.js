@@ -38,11 +38,15 @@ app.get("/", (req, res) => {
 
 // Serve home page directly for /home, but require authentication first
 app.get('/home', isAuthenticated, (req, res) => {
-    // Render home page with username from session
-    res.send(`
-        <h1>Welcome, ${req.session.username}!</h1>
-    `);
+    // Send the home.html file with the username as a query parameter
+    res.redirect(`/home.html?username=${encodeURIComponent(req.session.username)}`);
 });
+
+// Add a route to serve home.html
+app.get('/home.html', isAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname, 'home.html'));
+});
+
 
 // Endpoint to validate login
 app.post("/validate-login", (req, res) => {
