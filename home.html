@@ -10,13 +10,27 @@
     <script src="home.js"></script>
 </head>
 <body>
-    <h1 id="welcomeMessage"></h1>
-    <p>This is the home page of our website.</p>
-    <p>Feel free to explore and use our services.</p>
-    <button id="logout" type="submit">Logout</button>
-    <p>Last updated: 2024-12-15</p>
-    <p>Created by: <a href="https://www.github.com/Nandor206">Nandor</a></p>
+    <nav class="navbar">
+        <div class="container-fluid">
+            <h1 id="welcomeMessage"></h1>
+            <div class="navbar-nav">
+                <a href="#" class="nav-link">Home</a>
+                <a href="#" class="nav-link">About</a>
+                <a href="#" class="nav-link">Contact</a>
+                <button id="logout" type="submit">Logout</button>
+            </div>
+        </div>
+    </nav>
 
+    <div class="content">
+        <p>This is the home page of our website.</p>
+        <p>Feel free to explore and use our services.</p>
+    </div>
+
+    <footer>
+        <p>Last updated: 2024-12-15</p>
+        <p>Created by: <a href="https://www.github.com/Nandor206">Nandor</a></p>
+    </footer>
     <script>
         // Get the username from the URL query parameter
         const urlParams = new URLSearchParams(window.location.search);
@@ -28,4 +42,5 @@
         }
     </script>
 </body>
+
 </html>
