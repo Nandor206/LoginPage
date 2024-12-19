@@ -57,27 +57,29 @@ app.post("/validate-login", (req, res) => {
   fs.readFile(filePath, "utf8", (err, data) => {
     if (err) {
       console.error("Error reading the file:", err);
-      return res.status(500).json({ message: "Server error." });
+      return res.status(500).json({ success: false, message: "Server error." });
     }
 
     const users = data.split("\n").map((line) => line.trim());
     const userEntry = users.find((entry) => entry.startsWith(`${username}:`));
 
     if (!userEntry) {
-      return res.status(401).json({ message: "Username not found." });
+      return res.status(401).json({ success: false, message: "Username not found." });
     }
 
     const [, storedPass] = userEntry.split(":");
     if (storedPass !== password) {
-      return res.status(401).json({ message: "Incorrect password." });
+      return res.status(401).json({ success: false, message: "Incorrect password." });
     }
 
-    // If credentials are correct, set session variable and redirect to home
-    req.session.loggedIn = true; // Set loggedIn session to true
-    req.session.username = username; // Store the username in session
-    res.redirect("/home");
+    // If credentials are correct, set session variable and send success response
+    req.session.loggedIn = true;
+    req.session.username = username;
+    res.json({ success: true, message: "Login successful", username: username });
   });
 });
+
+
 
 // Logout route
 app.get("/logout", (req, res) => {

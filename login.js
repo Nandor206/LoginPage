@@ -1,33 +1,60 @@
-document.querySelector(".loginform").addEventListener("submit", async (event) => {
-    event.preventDefault(); // Prevent the default form submission
+document.addEventListener('DOMContentLoaded', () => {
+    const loginBtn = document.getElementById('loginBtn');
+    const loginForm = document.getElementById('loginForm');
+    const loginPopup = document.getElementById('loginPopup');
+    const closeBtn = document.querySelector('.close');
 
-    // Get the form data
-    const formData = new FormData(event.target);
-    const username = formData.get("user");
-    const password = formData.get("password");
-
-    try {
-        // Send the data to the server using fetch (no page reload)
-        const response = await fetch("/validate-login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json", // Send JSON data
-            },
-            body: JSON.stringify({ username, password }),
-        });
-
-        const result = await response.json(); // Parse the server's JSON response
-
-        if (response.ok) {
-            // If login is successful, redirect to another page (e.g., home.html or dashboard)
-            window.location.href = "/home";  // Redirect to /home
-        } else {
-            // If login fails, show error message
-            alert(result.message); // Show error message
-            window.location.href = "/index";
-        }
-    } catch (error) {
-        console.error("Error:", error);
-        alert("An error occurred while trying to log in. Please try again later.");
+    // Check login state on page load
+    const username = localStorage.getItem('username');
+    if (username) {
+        loginBtn.textContent = 'Logout';
+        document.getElementById('welcomeMessage').textContent = `Welcome, ${username}!`;
     }
+
+    loginBtn.addEventListener('click', () => {
+        if (localStorage.getItem('username')) {
+            // Logout
+            localStorage.removeItem('username');
+            loginBtn.textContent = 'Login';
+            document.getElementById('welcomeMessage').textContent = 'Welcome, Anonymous!';
+        } else {
+            // Show login popup
+            loginPopup.style.display = 'block';
+        }
+    });
+
+    closeBtn.addEventListener('click', () => {
+        loginPopup.style.display = 'none';
+    });
+
+    loginForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const formData = new FormData(loginForm);
+        const username = formData.get('username');
+        const password = formData.get('password');
+
+        try {
+            const response = await fetch('/validate-login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, password }),
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                // If login is successful, store username and redirect
+                localStorage.setItem('username', username);
+                window.location.href = '/home';
+            } else {
+                alert(result.message);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred while trying to log in. Please try again later.');
+        }
+    });
 });
+
