@@ -1,5 +1,5 @@
 ## Login page
-This will be accessible to everyone in the future, <s>it's still in work in progress.<s>
+This will be accessible to everyone in the future, <s>it's still in work in progress.</s>
 The is now accessible, I started a new web project.
 
 ## Why are you seeing this?
